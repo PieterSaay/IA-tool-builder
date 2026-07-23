@@ -1,16 +1,23 @@
-# Third Umpire — Phase 1 + Phase 2
+# Third Umpire — Phase 1 + Phase 2 + Phase 3
 
 A free, single-competition build of the product design: pick a ruleset, ask a
 question or describe a scenario, get an answer scoped and cited to that
-ruleset — and keep getting answers even with no network connection.
+ruleset, keep getting answers with no network connection, and stay current
+through a Change Alerts digest.
 
 - **Phase 1**: Match Mode + cited Q&A for one anchor competition.
-- **Phase 2** (this update): Scenario Simulator (curated library, not
-  open-ended generation), offline support via a Service Worker, and
-  export-to-report on every ruling.
+- **Phase 2**: Scenario Simulator (curated library, not open-ended
+  generation), offline support via a Service Worker, and export-to-report on
+  every ruling.
+- **Phase 3** (this update): Change Alerts digest, and a lightweight way for
+  new content to get published into the app and immediately show up there.
 
-Change Alerts and the Association Portal are later phases and are not built
-here.
+The original product design paired Change Alerts with a full Association
+Portal (seats, billing, per-association members) — but this build stayed
+free, and a real multi-tenant accounts system was never built (see "What's
+deliberately not here yet"). So Phase 3 here is scoped to what's genuinely
+buildable without inventing that: a single shared content library anyone can
+publish to via `/admin.html`, not per-association member management.
 
 ## What's new in Phase 2
 
@@ -29,6 +36,27 @@ here.
 - **Report export** — every ruling (Q&A or scenario) has an "Export ruling"
   button that downloads a plain-text summary with the citation, reasoning
   steps, and a timestamp.
+
+## What's new in Phase 3
+
+- **Change Alerts** — a filterable digest (`GET /api/alerts`) covering Law
+  reminders, playing-condition updates, and newly-published content, plus a
+  **personal insight** ("your most-queried topic so far") computed entirely
+  client-side from a query history kept in `localStorage` — no server-side
+  accounts needed for that part. Read/unread state is tracked the same way.
+  Works offline too, through the same Service Worker fallback pattern as
+  Q&A and Scenario Simulator.
+- **Content publishing** (`public/admin.html`, `POST /api/content`) — fill in
+  a title, summary, explanation, citation, and keywords for a ruleset, and it
+  is immediately searchable in Match Mode and appears as an "association"
+  category alert in the digest. No restart needed: the running server keeps
+  an in-memory copy that's mutated and persisted to disk on every publish
+  (`server/lib/contentStore.js`), so a single process stays consistent
+  between what's searchable and what's on disk.
+- This endpoint is **deliberately unauthenticated** — anyone with the URL can
+  publish to the one shared library. That's an accepted limitation of a
+  no-accounts Phase 3, not an oversight; don't point it at anything but a
+  demo.
 
 ## Running it
 
@@ -49,6 +77,15 @@ The tests in `server/test/search.test.js` verify the one thing this product
 actually depends on: that the *same question* returns a *different, correctly
 sourced* answer depending on which ruleset is active, and that a playing
 condition never leaks into a ruleset it isn't scoped to.
+`server/test/contentStore.test.js` and `server/test/api-http.test.js` cover
+Phase 3's write path — including a test that specifically asserts the real
+committed data files in `server/data/` are never touched by running the
+suite (writes go through `THIRD_UMPIRE_DATA_DIR` pointed at a temp
+directory). **If you manually test `POST /api/content` outside the test
+suite** (e.g. running the server yourself and using `/admin.html`), set
+`THIRD_UMPIRE_DATA_DIR` to a temp copy first, or it will genuinely write
+into the committed JSON files — this happened once during Phase 3
+development and had to be cleaned up.
 
 ## Content policy — read before adding data
 
@@ -126,9 +163,15 @@ stand-in for it.
 - No LLM — retrieval is keyword/metadata matching over a hand-curated
   dataset, for both Q&A and Scenario Simulator. Inspectable, testable, and
   avoids an API dependency before the content foundation is proven out.
-- No accounts, no billing (this build is free), no Change Alerts, no
-  Association Portal — later phases.
-- Only two rulesets, eight Laws, and four curated scenarios — enough to
-  prove the mechanics, not to cover a real competition.
+- No accounts, no billing (this build is free), no multi-tenant Association
+  Portal (seats, per-association members) — `/admin.html` is a single shared
+  content library, not a stand-in for that.
+- Only two rulesets, eight Laws, four curated scenarios, and two seed
+  alerts — enough to prove the mechanics, not to cover a real competition.
 - The offline cache is single-version and whole-bundle (no incremental
   sync) — fine at this content size, won't stay fine indefinitely.
+- The static GitHub Pages build in `web/` (see below) mirrors Phase 1 + 2
+  (Match Mode and Scenario Simulator) but not yet Phase 3 — Change Alerts
+  could reasonably be added there (it needs no backend, same as the rest of
+  that build), but content *publishing* inherently can't work on a static
+  site with no server to persist to.

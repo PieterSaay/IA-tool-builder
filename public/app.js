@@ -14,8 +14,69 @@
   const scenarioButton = document.getElementById('scenarioButton');
   const scenarioArea = document.getElementById('scenarioArea');
 
+  const alertsChipRow = document.getElementById('alertsChipRow');
+  const alertsFeed = document.getElementById('alertsFeed');
+  const alertsSummary = document.getElementById('alertsSummary');
+  const markAllReadBtn = document.getElementById('markAllRead');
+
   let activeRulesetId = null;
   let activeRulesetName = null;
+  let loadedAlerts = [];
+  let activeAlertsFilter = 'all';
+
+  const QUERY_HISTORY_KEY = 'thirdUmpireQueryHistory';
+  const READ_ALERTS_KEY = 'thirdUmpireReadAlerts';
+
+  function readLocal(key, fallback) {
+    try {
+      const raw = localStorage.getItem(key);
+      return raw ? JSON.parse(raw) : fallback;
+    } catch (err) {
+      return fallback;
+    }
+  }
+
+  function writeLocal(key, value) {
+    try {
+      localStorage.setItem(key, JSON.stringify(value));
+    } catch (err) {
+      // localStorage unavailable (private browsing, quota) — degrade silently
+    }
+  }
+
+  function recordQueryHistory(answer) {
+    const history = readLocal(QUERY_HISTORY_KEY, []);
+    history.push({ id: answer.id, ref: answer.ref, title: answer.title, timestamp: new Date().toISOString() });
+    writeLocal(QUERY_HISTORY_KEY, history);
+  }
+
+  function personalInsightAlert() {
+    const history = readLocal(QUERY_HISTORY_KEY, []);
+    if (history.length === 0) return null;
+
+    const counts = new Map();
+    history.forEach((entry) => {
+      counts.set(entry.id, (counts.get(entry.id) || 0) + 1);
+    });
+    let topId = null;
+    let topCount = 0;
+    counts.forEach((count, id) => {
+      if (count > topCount) {
+        topCount = count;
+        topId = id;
+      }
+    });
+    if (!topId || topCount < 2) return null;
+
+    const topEntry = [...history].reverse().find((e) => e.id === topId);
+    return {
+      id: 'personal-top-query',
+      category: 'personal',
+      headline: `Your most-queried topic so far: ${topEntry.ref} — ${topEntry.title}`,
+      summary: `Came up ${topCount} times in your Match Mode questions on this device.`,
+      timestamp: new Date().toISOString(),
+    };
+  }
 
   function el(tag, className, text) {
     const node = document.createElement(tag);
@@ -88,6 +149,7 @@
     }
 
     const { answer } = data;
+    recordQueryHistory(answer);
     card.appendChild(el('p', 'answer-eyebrow', 'Ruling'));
     card.appendChild(el('p', 'answer-headline', answer.summary));
     card.appendChild(el('span', `tag ${answer.type}`, answer.type === 'law' ? 'Law' : 'Playing condition'));
@@ -232,11 +294,111 @@
     submitScenario(new Event('submit', { cancelable: true }));
   });
 
+  // ---- Change Alerts ----
+
+  function catLabel(category) {
+    if (category === 'law') return 'Law';
+    if (category === 'playing_condition') return 'Playing condition';
+    if (category === 'association') return 'Association';
+    return 'Personal';
+  }
+
+  function renderAlerts() {
+    const readIds = new Set(readLocal(READ_ALERTS_KEY, []));
+    const combined = [...loadedAlerts];
+    const personal = personalInsightAlert();
+    if (personal) combined.push(personal);
+    combined.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+    const visible = activeAlertsFilter === 'all' ? combined : combined.filter((a) => a.category === activeAlertsFilter);
+    const unreadCount = combined.filter((a) => !readIds.has(a.id)).length;
+    alertsSummary.textContent = `${combined.length} update${combined.length === 1 ? '' : 's'} · ${unreadCount} unread`;
+
+    alertsFeed.innerHTML = '';
+    if (visible.length === 0) {
+      alertsFeed.appendChild(el('p', 'no-match', 'Nothing in this category yet.'));
+      return;
+    }
+
+    visible.forEach((alert) => {
+      const isRead = readIds.has(alert.id);
+      const card = el('div', `alert-card${isRead ? ' is-read' : ''}`);
+      card.dataset.alertId = alert.id;
+
+      const top = el('div', 'alert-top');
+      top.appendChild(el('span', `cat-tag ${alert.category}`, catLabel(alert.category)));
+      top.appendChild(el('span', 'alert-time', new Date(alert.timestamp).toLocaleDateString()));
+      card.appendChild(top);
+
+      const headline = el('p', 'alert-headline');
+      if (!isRead) headline.appendChild(el('span', 'unread-dot'));
+      headline.appendChild(document.createTextNode(alert.headline));
+      card.appendChild(headline);
+
+      card.appendChild(el('p', 'alert-summary', alert.summary));
+
+      if (alert.detail) {
+        const details = document.createElement('details');
+        details.className = 'alert-detail';
+        const summary = document.createElement('summary');
+        summary.textContent = 'Details';
+        details.appendChild(summary);
+        const full = el('p', 'alert-full', alert.detail);
+        if (alert.citation) full.textContent += ` (${alert.citation})`;
+        details.appendChild(full);
+        card.appendChild(details);
+      }
+
+      card.addEventListener('click', () => markAlertRead(alert.id), { once: true });
+      alertsFeed.appendChild(card);
+    });
+  }
+
+  function markAlertRead(id) {
+    const readIds = new Set(readLocal(READ_ALERTS_KEY, []));
+    if (readIds.has(id)) return;
+    readIds.add(id);
+    writeLocal(READ_ALERTS_KEY, [...readIds]);
+    renderAlerts();
+  }
+
+  function markAllRead() {
+    const combined = [...loadedAlerts];
+    const personal = personalInsightAlert();
+    if (personal) combined.push(personal);
+    writeLocal(READ_ALERTS_KEY, combined.map((a) => a.id));
+    renderAlerts();
+  }
+
+  async function loadAlerts() {
+    try {
+      const res = await fetch('/api/alerts');
+      const data = await res.json();
+      loadedAlerts = data.alerts || [];
+    } catch (err) {
+      loadedAlerts = [];
+      alertsSummary.textContent = 'Could not load updates. Is the server running?';
+    }
+    renderAlerts();
+  }
+
+  alertsChipRow.addEventListener('click', (event) => {
+    const chip = event.target.closest('.chip');
+    if (!chip) return;
+    Array.from(alertsChipRow.querySelectorAll('.chip')).forEach((c) => c.setAttribute('aria-pressed', 'false'));
+    chip.setAttribute('aria-pressed', 'true');
+    activeAlertsFilter = chip.getAttribute('data-filter');
+    renderAlerts();
+  });
+
+  markAllReadBtn.addEventListener('click', markAllRead);
+
   // ---- wiring ----
 
   queryForm.addEventListener('submit', submitQuery);
   scenarioForm.addEventListener('submit', submitScenario);
   loadRulesets();
+  loadAlerts();
 
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {

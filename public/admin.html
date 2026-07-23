@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Third Umpire — Admin (Publish Content)</title>
+<link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <span class="brand">Third Umpire</span>
+    <span class="phase-tag">Admin — publish local playing conditions</span>
+  </header>
+
+  <main class="page">
+    <section class="panel">
+      <h2>Publish new content</h2>
+      <p class="hint">
+        No accounts system exists yet, so this is a single shared content library rather than
+        per-association — see the README before treating this as more than a Phase 3 demo of the
+        mechanic. Publishing here makes the content immediately searchable in Match Mode for the
+        chosen ruleset, and creates an entry in the Change Alerts feed on the main page.
+      </p>
+      <form id="contentForm" class="admin-form">
+        <div class="field">
+          <label for="rulesetSelect">Ruleset</label>
+          <select id="rulesetSelect"></select>
+        </div>
+        <div class="field">
+          <label for="titleInput">Title</label>
+          <input type="text" id="titleInput" placeholder="e.g. Drinks break duration" />
+        </div>
+        <div class="field">
+          <label for="summaryInput">Summary (the headline ruling)</label>
+          <input type="text" id="summaryInput" placeholder="e.g. Drinks breaks are capped at 5 minutes each innings." />
+        </div>
+        <div class="field">
+          <label for="explanationInput">Explanation</label>
+          <textarea id="explanationInput" rows="3" placeholder="The fuller explanation shown when a citation is expanded."></textarea>
+        </div>
+        <div class="field">
+          <label for="citationInput">Citation</label>
+          <input type="text" id="citationInput" placeholder="e.g. ECB Premier Cricket Playing Conditions 2026, cl. 12.1" />
+        </div>
+        <div class="field">
+          <label for="keywordsInput">Keywords (comma-separated, used for matching)</label>
+          <input type="text" id="keywordsInput" placeholder="e.g. drinks break, refreshment interval" />
+        </div>
+        <button type="submit" id="publishButton">Publish</button>
+      </form>
+      <div id="publishResult" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <footer class="footnote">
+    <p>This page is intentionally unauthenticated for the Phase 3 demo. Anyone with the URL can publish content to the shared library — do not treat this as production-ready association tooling. Back to the <a href="/index.html">member-facing app</a>.</p>
+  </footer>
+
+  <script src="/admin.js"></script>
+</body>
+</html>

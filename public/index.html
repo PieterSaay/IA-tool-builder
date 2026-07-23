@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Third Umpire — Phase 2</title>
+<title>Third Umpire — Phase 3</title>
 <link rel="stylesheet" href="/styles.css" />
 </head>
 <body>
   <header class="topbar">
     <span class="brand">Third Umpire</span>
-    <span class="phase-tag" id="phaseTag">Phase 2 — offline-capable</span>
+    <span class="phase-tag" id="phaseTag">Phase 3 — change alerts</span>
   </header>
 
   <main class="page">
@@ -52,10 +52,26 @@
       </form>
       <div id="scenarioArea" aria-live="polite"></div>
     </section>
+
+    <section class="panel" id="alertsPanel">
+      <div class="digest-title-row">
+        <h2>4. Recent updates</h2>
+        <button class="mark-read" id="markAllRead" type="button">Mark all read</button>
+      </div>
+      <p class="hint" id="alertsSummary">Loading updates…</p>
+      <div class="chip-row" id="alertsChipRow">
+        <button class="chip" type="button" data-filter="all" aria-pressed="true">All</button>
+        <button class="chip" type="button" data-filter="law">Law</button>
+        <button class="chip" type="button" data-filter="playing_condition">Playing conditions</button>
+        <button class="chip" type="button" data-filter="association">Association</button>
+        <button class="chip" type="button" data-filter="personal">Personal</button>
+      </div>
+      <div id="alertsFeed" aria-live="polite"></div>
+    </section>
   </main>
 
   <footer class="footnote">
-    <p>Content is paraphrased for reference and cited by Law/clause number — not verbatim official text. This is a Phase 2 demo covering two rulesets, a small starter set of Laws, and four curated scenarios; it is not a substitute for the official Laws of Cricket or your competition's playing conditions. Once loaded, it keeps working offline using a cached copy of this same content.</p>
+    <p>Content is paraphrased for reference and cited by Law/clause number — not verbatim official text. This is a Phase 3 demo covering two rulesets, a small starter set of Laws, four curated scenarios, and a Change Alerts digest; it is not a substitute for the official Laws of Cricket or your competition's playing conditions. Once loaded, it keeps working offline using a cached copy of this same content. Anyone can publish new content via <a href="/admin.html">the admin page</a> — there's no accounts system yet, so treat that as a shared demo tool, not a production content pipeline.</p>
   </footer>
 
   <script src="/app.js"></script>

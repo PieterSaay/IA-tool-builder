@@ -19,8 +19,9 @@ const rulesets = require('../data/rulesets.json');
 const laws = require('../data/laws.json');
 const playingConditions = require('../data/playingConditions.json');
 const scenarios = require('../data/scenarios.json');
+const alerts = require('../data/alerts.json');
 
-const bundle = { rulesets, laws, playingConditions, scenarios };
+const bundle = { rulesets, laws, playingConditions, scenarios, alerts };
 
 function loadSwInSandbox({ networkShouldFail }) {
   const listeners = {};
@@ -49,7 +50,7 @@ function loadSwInSandbox({ networkShouldFail }) {
     importScripts: () => {}, // real modules are required directly below instead
     fetch: async (input) => {
       const url = typeof input === 'string' ? input : input.url;
-      if (url.includes('/api/query') || url.includes('/api/scenario')) {
+      if (url.includes('/api/query') || url.includes('/api/scenario') || url.includes('/api/alerts')) {
         if (networkShouldFail) throw new TypeError('simulated network failure');
       }
       return new Response('{}', { status: 200 });
@@ -114,6 +115,21 @@ test('SW fetch handler scopes the same offline query differently for ecb-premier
   assert.equal(body.matched, true);
   assert.equal(body.offline, true);
   assert.equal(body.answer.id, 'pc-ecb-premier-drs');
+});
+
+test('SW fetch handler answers /api/alerts from cache when the network fails, newest first', async () => {
+  const listeners = loadSwInSandbox({ networkShouldFail: true });
+  const request = new Request('http://localhost/api/alerts', { method: 'GET' });
+  const { event, getResponse } = makeFetchEvent(request);
+
+  listeners.fetch(event);
+  const body = await (await getResponse()).json();
+
+  assert.equal(body.offline, true);
+  assert.ok(body.alerts.length >= 2);
+  const timestamps = body.alerts.map((a) => new Date(a.timestamp).getTime());
+  const sorted = [...timestamps].sort((a, b) => b - a);
+  assert.deepEqual(timestamps, sorted);
 });
 
 test('SW fetch handler answers /api/scenario offline with the full reasoning chain', async () => {

@@ -3,7 +3,7 @@
 importScripts('/shared/matching.js');
 importScripts('/shared/resolvers.js');
 
-const CACHE_NAME = 'third-umpire-v1';
+const CACHE_NAME = 'third-umpire-v2';
 const SHELL_ASSETS = ['/', '/index.html', '/styles.css', '/app.js', '/shared/matching.js', '/shared/resolvers.js'];
 
 self.addEventListener('install', (event) => {
@@ -98,9 +98,28 @@ async function handleScenarioOffline(event) {
   }
 }
 
+async function handleAlertsOffline(event) {
+  const networkRequest = event.request.clone();
+  try {
+    return await fetch(networkRequest);
+  } catch (err) {
+    const bundle = await getCachedBundle();
+    if (!bundle) {
+      return jsonResponse({ error: 'Offline, and no cached content available yet — open the app online once first.' });
+    }
+    const sorted = [...(bundle.alerts || [])].sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+    return jsonResponse({ alerts: sorted, offline: true });
+  }
+}
+
 self.addEventListener('fetch', (event) => {
   const { request } = event;
   const url = new URL(request.url);
+
+  if (request.method === 'GET' && url.pathname === '/api/alerts') {
+    event.respondWith(handleAlertsOffline(event));
+    return;
+  }
 
   if (request.method === 'GET' && url.pathname === '/api/content-bundle') {
     event.respondWith(

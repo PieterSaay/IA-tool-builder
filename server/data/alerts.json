@@ -1,0 +1,20 @@
+[
+  {
+    "id": "alert-mankad-reminder",
+    "category": "law",
+    "headline": "MCC Law 41.16 — a reminder, not a change",
+    "summary": "The non-striker run-out has sat under Run Out, not Unfair Play, since 2022 — still catching people out in dispute chat.",
+    "detail": "Since the 2017 Code (3rd edition, 2022 amendment), Law 41.16 classifies this dismissal as a standard Run Out. It carries no special reporting requirement and is not considered unfair play.",
+    "citation": "Laws of Cricket, 3rd Edition (2017), Law 41.16",
+    "timestamp": "2026-07-16T09:00:00Z"
+  },
+  {
+    "id": "alert-ecb-2026-conditions",
+    "category": "playing_condition",
+    "headline": "ECB Premier Cricket — 2026 conditions now live",
+    "summary": "Updated ball-change and over-rate clauses for the new season, in the ECB Premier Cricket ruleset.",
+    "detail": "The 2026 playing conditions clarify the over-rate penalty as a points deduction rather than a fine, and confirm ball-change decisions rest with the umpires rather than either captain.",
+    "citation": "ECB Premier Cricket Playing Conditions 2026",
+    "timestamp": "2026-07-10T09:00:00Z"
+  }
+]
