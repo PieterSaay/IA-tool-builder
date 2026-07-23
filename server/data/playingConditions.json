@@ -1,0 +1,35 @@
+[
+  {
+    "id": "pc-ecb-premier-drs",
+    "type": "playing_condition",
+    "clauseRef": "cl. 7.2",
+    "title": "DRS review allowance",
+    "keywords": ["drs", "review", "reviews", "decision review", "unsuccessful"],
+    "summary": "1 unsuccessful review per team, per innings.",
+    "explanation": "Each side may request a maximum of one unsuccessful review per innings. A review that results in the on-field decision being reversed, in whole or in part, is not counted against that total.",
+    "citation": "ECB Premier Cricket Playing Conditions 2026, cl. 7.2",
+    "rulesetIds": ["ecb-premier"]
+  },
+  {
+    "id": "pc-ecb-premier-overrate",
+    "type": "playing_condition",
+    "clauseRef": "cl. 9.1",
+    "title": "Over-rate penalty",
+    "keywords": ["over rate", "overs", "penalty", "slow", "minimum overs"],
+    "summary": "Sides bowling below the minimum over-rate face a points deduction, not a fine.",
+    "explanation": "A side that fails to bowl the minimum number of overs in the allotted time, after allowed stoppages, has league points deducted for that fixture rather than a financial penalty.",
+    "citation": "ECB Premier Cricket Playing Conditions 2026, cl. 9.1",
+    "rulesetIds": ["ecb-premier"]
+  },
+  {
+    "id": "pc-ecb-premier-ballchange",
+    "type": "playing_condition",
+    "clauseRef": "cl. 5.4",
+    "title": "Changing the ball",
+    "keywords": ["ball change", "lost ball", "out of shape", "replacement ball"],
+    "summary": "A lost or out-of-shape ball is replaced with one of similar condition, chosen by the umpires, not automatically a new ball.",
+    "explanation": "Where the ball is lost or becomes unfit for play, the umpires select a replacement of comparable wear from the box provided by the home side. Sides do not have the right to demand a new ball outside the normal new-ball allowance.",
+    "citation": "ECB Premier Cricket Playing Conditions 2026, cl. 5.4",
+    "rulesetIds": ["ecb-premier"]
+  }
+]

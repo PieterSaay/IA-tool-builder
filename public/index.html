@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Third Umpire — Phase 1</title>
+<link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <span class="brand">Third Umpire</span>
+    <span class="phase-tag">Phase 1 — free, one competition</span>
+  </header>
+
+  <main class="page">
+    <section class="panel" id="rulesetPanel">
+      <h2>1. Choose your Match Mode</h2>
+      <p class="hint">Every answer below is scoped to whichever ruleset is selected here.</p>
+      <div id="rulesetList" class="ruleset-list" aria-live="polite">
+        <p class="loading">Loading rulesets…</p>
+      </div>
+    </section>
+
+    <section class="panel" id="queryPanel">
+      <h2>2. Ask a question</h2>
+      <form id="queryForm" class="query-form">
+        <input
+          type="text"
+          id="queryInput"
+          placeholder="e.g. how many unsuccessful reviews does each side get?"
+          autocomplete="off"
+        />
+        <button type="submit" id="queryButton" disabled>Ask</button>
+      </form>
+      <p class="hint" id="activeRulesetHint">Select a ruleset above first.</p>
+
+      <div id="answerArea" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <footer class="footnote">
+    <p>Content is paraphrased for reference and cited by Law/clause number — not verbatim official text. This is a Phase 1 demo covering two rulesets and a small starter set of Laws; it is not a substitute for the official Laws of Cricket or your competition's playing conditions.</p>
+  </footer>
+
+  <script src="/app.js"></script>
+</body>
+</html>

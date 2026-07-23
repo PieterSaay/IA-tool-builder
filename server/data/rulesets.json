@@ -1,0 +1,14 @@
+[
+  {
+    "id": "club-recreational",
+    "name": "Club — Recreational",
+    "description": "Law only, no amendments. The default for casual and junior club cricket.",
+    "usesPlayingConditions": false
+  },
+  {
+    "id": "ecb-premier",
+    "name": "ECB Premier Cricket",
+    "description": "Example domestic playing conditions for Saturday league cricket at Premier grade.",
+    "usesPlayingConditions": true
+  }
+]

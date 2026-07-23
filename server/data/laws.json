@@ -1,0 +1,90 @@
+[
+  {
+    "id": "law-28-3-helmet",
+    "type": "law",
+    "lawRef": "Law 28.3",
+    "title": "Ball striking a fielding-side helmet on the ground",
+    "keywords": ["helmet", "ground", "deflect", "slip", "keeper", "dead ball", "penalty runs", "catch off helmet"],
+    "summary": "Not out — the ball becomes dead the instant it touches a grounded fielding-side helmet, and 5 penalty runs go to the batting side.",
+    "explanation": "A fielding-side helmet not currently worn must be left on the ground only behind the wicket-keeper. If the ball touches it while in play, the ball is dead immediately and 5 penalty runs are awarded to the batting side. Because the ball is already dead at that point, any subsequent contact by a fielder — including what looks like a clean catch — cannot be a valid dismissal.",
+    "citation": "Laws of Cricket, 3rd Edition (2017), Law 28.3",
+    "appliesToAllRulesets": true
+  },
+  {
+    "id": "law-33-3-fair-catch",
+    "type": "law",
+    "lawRef": "Law 33.3",
+    "title": "What counts as a fair catch (bump ball)",
+    "keywords": ["catch", "caught", "bump ball", "ground", "fair catch", "short leg", "half volley"],
+    "summary": "Not out — a catch is only fair if the ball has not touched the ground since leaving the bat or glove.",
+    "explanation": "For a catch to be valid, the ball must not have touched the ground at any point after leaving the bat or a glove holding the bat. If the umpire judges that the ball struck the pitch — even immediately in front of the bat — before it reached the fielder, the catch is not fair, regardless of how cleanly the fielder takes it.",
+    "citation": "Laws of Cricket, 3rd Edition (2017), Law 33.3",
+    "appliesToAllRulesets": true
+  },
+  {
+    "id": "law-37-1-obstructing",
+    "type": "law",
+    "lawRef": "Law 37.1",
+    "title": "Obstructing the field, including handling the ball",
+    "keywords": ["handled the ball", "obstruct", "hand", "stop the ball", "wilful", "consent"],
+    "summary": "Out — deliberately fielding the ball with a hand not holding the bat, without the fielding side's consent, is Obstructing the Field.",
+    "explanation": "Either batter is out if they wilfully obstruct the fielding side by word or action, which includes deliberately fielding the ball with a hand not currently holding the bat. Before the 2017 Code this specific act had its own separate law, commonly called Handled the Ball — that law no longer exists on its own and this dismissal is now given as Obstructing the Field.",
+    "citation": "Laws of Cricket, 3rd Edition (2017), Law 37.1",
+    "appliesToAllRulesets": true
+  },
+  {
+    "id": "law-19-8-overthrow",
+    "type": "law",
+    "lawRef": "Law 19.8",
+    "title": "Runs from an overthrow that reaches the boundary",
+    "keywords": ["overthrow", "boundary", "runs", "throw", "crossed", "completed run"],
+    "summary": "Only the runs completed at the instant of the throw count in full, plus the boundary allowance — a run in progress does not count.",
+    "explanation": "When a boundary results from an overthrow, the batting side is credited with any runs the batters had actually completed before the throw was released, plus the boundary allowance. A run that was only partway through at the moment of the throw — however far the batters had got — is not credited as completed.",
+    "citation": "Laws of Cricket, 3rd Edition (2017), Law 19.8",
+    "appliesToAllRulesets": true
+  },
+  {
+    "id": "law-41-16-non-striker",
+    "type": "law",
+    "lawRef": "Law 41.16",
+    "title": "Non-striker leaving the crease early (\"Mankad\")",
+    "keywords": ["mankad", "non-striker", "run out", "backing up", "unfair"],
+    "summary": "A standard Run Out — not unfair play, and carries no special reporting requirement.",
+    "explanation": "If the non-striker leaves their ground before the bowler releases the ball, the bowler may attempt to run them out. Since the 2017 Code's amendments, this is classified as an ordinary Run Out rather than a form of Unfair Play, and does not require the umpires to file any special report.",
+    "citation": "Laws of Cricket, 3rd Edition (2017), Law 41.16",
+    "appliesToAllRulesets": true
+  },
+  {
+    "id": "law-drs-silent",
+    "type": "law",
+    "lawRef": "Law 31 (general)",
+    "title": "Whether the Laws provide for a video review system",
+    "keywords": ["drs", "review", "reviews", "decision review", "technology", "umpire's call"],
+    "summary": "The Laws themselves say nothing about DRS — a review system exists only if a competition's own playing conditions introduce one.",
+    "explanation": "The Laws of Cricket do not reference the Decision Review System at all. Where DRS is available, it exists purely because a competition's playing conditions add it — at a grade with no such playing conditions, the on-field umpire's decision is final regardless of what technology may be present at the ground.",
+    "citation": "Laws of Cricket, 3rd Edition (2017) — no provision made for review",
+    "appliesToAllRulesets": true
+  },
+  {
+    "id": "law-lbw-basics",
+    "type": "law",
+    "lawRef": "Law 36",
+    "title": "The basic elements of LBW",
+    "keywords": ["lbw", "leg before", "pad", "impact", "line", "pitching"],
+    "summary": "LBW requires the ball to have hit the batter without the bat first, in line (or missing the stumps only because of the shot offered), and going on to hit the stumps.",
+    "explanation": "For LBW, the ball must not first touch the bat, must strike the batter (usually the pad), and the point of impact must be either in line with the stumps or, if outside the line of off stump, the batter must not have offered a genuine shot. The ball must also be assessed as going on to hit the stumps.",
+    "citation": "Laws of Cricket, 3rd Edition (2017), Law 36",
+    "appliesToAllRulesets": true
+  },
+  {
+    "id": "law-bowled-basics",
+    "type": "law",
+    "lawRef": "Law 32",
+    "title": "The basic elements of Bowled",
+    "keywords": ["bowled", "stumps", "wicket down", "deflect off bat"],
+    "summary": "Bowled applies whenever a fair delivery puts the wicket down, even if it deflects off the bat, body, or equipment first.",
+    "explanation": "A batter is out Bowled if their wicket is put down by a fair delivery, whether or not the ball first touches the bat or any part of the batter, provided no other method of dismissal (such as Caught) applies first.",
+    "citation": "Laws of Cricket, 3rd Edition (2017), Law 32",
+    "appliesToAllRulesets": true
+  }
+]
