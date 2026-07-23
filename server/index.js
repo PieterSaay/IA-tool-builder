@@ -10,6 +10,7 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 app.use('/api', apiRouter);
 app.use(express.static(path.join(__dirname, '..', 'public')));
+app.use('/shared', express.static(path.join(__dirname, '..', 'shared')));
 
 if (require.main === module) {
   app.listen(PORT, () => {

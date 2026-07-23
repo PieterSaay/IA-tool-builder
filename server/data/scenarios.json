@@ -1,0 +1,58 @@
+[
+  {
+    "id": "scenario-helmet",
+    "keywords": ["helmet", "ground", "deflect", "slip", "catch"],
+    "verdictType": "notout",
+    "verdictLabel": "NOT OUT",
+    "summary": "Ball became dead the instant it touched the grounded helmet — 5 penalty runs to the batting side.",
+    "tag": "law",
+    "citation": "Laws of Cricket, 3rd Edition (2017), Law 28.3",
+    "steps": [
+      { "text": "Ball, while in play, touches a fielding-side helmet resting on the ground.", "cite": "Law 28.3" },
+      { "text": "Contact makes the ball dead immediately; 5 penalty runs are awarded to the batting side.", "cite": "Law 28.3" },
+      { "text": "Because the ball was already dead, the subsequent take at slip cannot be a valid catch.", "cite": "Law 33" }
+    ]
+  },
+  {
+    "id": "scenario-bump-ball",
+    "keywords": ["bump ball", "catch", "ground", "short leg"],
+    "verdictType": "notout",
+    "verdictLabel": "NOT OUT",
+    "summary": "A fair catch requires the ball not to have touched the ground since leaving the bat.",
+    "tag": "law",
+    "citation": "Laws of Cricket, 3rd Edition (2017), Law 33.3",
+    "steps": [
+      { "text": "For a catch to be fair, the ball must not have touched the ground after leaving the bat or glove.", "cite": "Law 33.3" },
+      { "text": "Umpire judges the ball struck the pitch before reaching the fielder.", "cite": "Law 33.3" },
+      { "text": "The take is not a valid catch, regardless of a clean take by the fielder.", "cite": "Law 33.3" }
+    ]
+  },
+  {
+    "id": "scenario-obstructing",
+    "keywords": ["handled the ball", "obstruct", "hand", "stop the ball", "non-striker"],
+    "verdictType": "out",
+    "verdictLabel": "OUT",
+    "summary": "Given as Obstructing the Field — this used to be its own law before the 2017 Code folded it in.",
+    "tag": "law",
+    "citation": "Laws of Cricket, 3rd Edition (2017), Law 37.1",
+    "steps": [
+      { "text": "Batter wilfully fields the ball with a hand not currently holding the bat.", "cite": "Law 37.1" },
+      { "text": "Done without the fielding side's consent, while the ball is in play.", "cite": "Law 37.1" },
+      { "text": "Formerly its own law, \"Handled the Ball\" — merged into Obstructing the Field in the 2017 Code.", "cite": "Law 37" }
+    ]
+  },
+  {
+    "id": "scenario-overthrow",
+    "keywords": ["overthrow", "boundary", "runs", "throw", "crossed"],
+    "verdictType": "neutral",
+    "verdictLabel": "5 RUNS",
+    "summary": "Runs completed at the instant of the throw are added in full; the run in progress does not count.",
+    "tag": "law",
+    "citation": "Laws of Cricket, 3rd Edition (2017), Law 19.8",
+    "steps": [
+      { "text": "One run had been completed at the instant the throw was released.", "cite": "Law 19.8" },
+      { "text": "The second run, only partway through, does not count as completed.", "cite": "Law 19.8" },
+      { "text": "An overthrow reaching the boundary adds four runs on top of the completed total.", "cite": "Law 19.8" }
+    ]
+  }
+]

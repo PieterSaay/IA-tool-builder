@@ -1,11 +1,12 @@
 'use strict';
 
 const express = require('express');
-const { findBestAnswer } = require('../lib/search');
+const { findBestAnswer, formatAnswerEntry, findBestScenario, formatScenarioEntry } = require('../../shared/resolvers');
 
 const rulesets = require('../data/rulesets.json');
 const laws = require('../data/laws.json');
 const playingConditions = require('../data/playingConditions.json');
+const scenarios = require('../data/scenarios.json');
 
 const rulesetById = new Map(rulesets.map((r) => [r.id, r]));
 
@@ -15,17 +16,11 @@ router.get('/rulesets', (req, res) => {
   res.json({ rulesets });
 });
 
-function formatEntry(entry) {
-  return {
-    id: entry.id,
-    type: entry.type,
-    ref: entry.type === 'law' ? entry.lawRef : entry.clauseRef,
-    title: entry.title,
-    summary: entry.summary,
-    explanation: entry.explanation,
-    citation: entry.citation,
-  };
-}
+// Everything an offline client needs cached to keep working without the
+// server: same data the routes below use, in one response.
+router.get('/content-bundle', (req, res) => {
+  res.json({ rulesets, laws, playingConditions, scenarios });
+});
 
 router.post('/query', (req, res) => {
   const { question, rulesetId } = req.body || {};
@@ -51,8 +46,30 @@ router.post('/query', (req, res) => {
   res.json({
     matched: true,
     ruleset,
-    answer: formatEntry(result.entry),
-    alternates: result.alternates.map(formatEntry),
+    answer: formatAnswerEntry(result.entry),
+    alternates: result.alternates.map(formatAnswerEntry),
+  });
+});
+
+router.post('/scenario', (req, res) => {
+  const { description } = req.body || {};
+
+  if (typeof description !== 'string' || !description.trim()) {
+    return res.status(400).json({ error: 'description is required' });
+  }
+
+  const result = findBestScenario(description, scenarios);
+
+  if (!result.matched) {
+    return res.json({
+      matched: false,
+      message: "This doesn't match anything in the curated scenario library yet — Phase 2 covers a handful of common disputes, not open-ended rulings.",
+    });
+  }
+
+  res.json({
+    matched: true,
+    verdict: formatScenarioEntry(result.entry),
   });
 });
 

@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Third Umpire — Phase 1</title>
+<title>Third Umpire — Phase 2</title>
 <link rel="stylesheet" href="/styles.css" />
 </head>
 <body>
   <header class="topbar">
     <span class="brand">Third Umpire</span>
-    <span class="phase-tag">Phase 1 — free, one competition</span>
+    <span class="phase-tag" id="phaseTag">Phase 2 — offline-capable</span>
   </header>
 
   <main class="page">
@@ -36,10 +36,26 @@
 
       <div id="answerArea" aria-live="polite"></div>
     </section>
+
+    <section class="panel" id="scenarioPanel">
+      <h2>3. Or describe a scenario</h2>
+      <p class="hint">Matched against a curated library of common disputes — not open-ended generation yet.</p>
+      <div class="chip-row" id="scenarioChipRow">
+        <button class="chip" type="button" data-q="Ball hits the fielding side's helmet on the ground and deflects to a catch, is that out?">Helmet on the ground</button>
+        <button class="chip" type="button" data-q="Is that out, looked like a bump ball to me">Bump ball</button>
+        <button class="chip" type="button" data-q="Non-striker used their hand to stop the ball hitting the stumps">Handled the ball</button>
+        <button class="chip" type="button" data-q="Overthrow reached the boundary after the batters had crossed for a run">Overthrow</button>
+      </div>
+      <form id="scenarioForm" class="query-form">
+        <input type="text" id="scenarioInput" placeholder="Describe what happened…" autocomplete="off" />
+        <button type="submit" id="scenarioButton">Get ruling</button>
+      </form>
+      <div id="scenarioArea" aria-live="polite"></div>
+    </section>
   </main>
 
   <footer class="footnote">
-    <p>Content is paraphrased for reference and cited by Law/clause number — not verbatim official text. This is a Phase 1 demo covering two rulesets and a small starter set of Laws; it is not a substitute for the official Laws of Cricket or your competition's playing conditions.</p>
+    <p>Content is paraphrased for reference and cited by Law/clause number — not verbatim official text. This is a Phase 2 demo covering two rulesets, a small starter set of Laws, and four curated scenarios; it is not a substitute for the official Laws of Cricket or your competition's playing conditions. Once loaded, it keeps working offline using a cached copy of this same content.</p>
   </footer>
 
   <script src="/app.js"></script>
