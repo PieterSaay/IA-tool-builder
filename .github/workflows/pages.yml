@@ -1,0 +1,57 @@
+name: Deploy static demo to GitHub Pages
+
+on:
+  push:
+    branches:
+      - claude/ai-subscription-product-design-6ad9r5
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Assemble the Pages artifact from the canonical sources rather than
+      # committing a second, duplicated copy of shared/ and server/data/ to
+      # the repo — this way there's still exactly one place those files live.
+      - name: Assemble static site
+        run: |
+          mkdir -p _site/data
+          cp web/index.html _site/index.html
+          cp web/app.js _site/app.js
+          cp public/styles.css _site/styles.css
+          cp shared/matching.js _site/matching.js
+          cp shared/resolvers.js _site/resolvers.js
+          cp server/data/rulesets.json _site/data/rulesets.json
+          cp server/data/laws.json _site/data/laws.json
+          cp server/data/playingConditions.json _site/data/playingConditions.json
+          cp server/data/scenarios.json _site/data/scenarios.json
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

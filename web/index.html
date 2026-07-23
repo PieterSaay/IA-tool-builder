@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Third Umpire — Static Demo</title>
+<link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <span class="brand">Third Umpire</span>
+    <span class="phase-tag">Static demo — fully client-side, no backend</span>
+  </header>
+
+  <main class="page">
+    <section class="panel" id="rulesetPanel">
+      <h2>1. Choose your Match Mode</h2>
+      <p class="hint">Every answer below is scoped to whichever ruleset is selected here.</p>
+      <div id="rulesetList" class="ruleset-list" aria-live="polite">
+        <p class="loading">Loading rulesets…</p>
+      </div>
+    </section>
+
+    <section class="panel" id="queryPanel">
+      <h2>2. Ask a question</h2>
+      <form id="queryForm" class="query-form">
+        <input
+          type="text"
+          id="queryInput"
+          placeholder="e.g. how many unsuccessful reviews does each side get?"
+          autocomplete="off"
+        />
+        <button type="submit" id="queryButton" disabled>Ask</button>
+      </form>
+      <p class="hint" id="activeRulesetHint">Select a ruleset above first.</p>
+      <div id="answerArea" aria-live="polite"></div>
+    </section>
+
+    <section class="panel" id="scenarioPanel">
+      <h2>3. Or describe a scenario</h2>
+      <p class="hint">Matched against a curated library of common disputes — not open-ended generation.</p>
+      <div class="chip-row" id="scenarioChipRow">
+        <button class="chip" type="button" data-q="Ball hits the fielding side's helmet on the ground and deflects to a catch, is that out?">Helmet on the ground</button>
+        <button class="chip" type="button" data-q="Is that out, looked like a bump ball to me">Bump ball</button>
+        <button class="chip" type="button" data-q="Non-striker used their hand to stop the ball hitting the stumps">Handled the ball</button>
+        <button class="chip" type="button" data-q="Overthrow reached the boundary after the batters had crossed for a run">Overthrow</button>
+      </div>
+      <form id="scenarioForm" class="query-form">
+        <input type="text" id="scenarioInput" placeholder="Describe what happened…" autocomplete="off" />
+        <button type="submit" id="scenarioButton">Get ruling</button>
+      </form>
+      <div id="scenarioArea" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <footer class="footnote">
+    <p>This is a static build for GitHub Pages: no server, no <code>/api</code> calls — the exact same matching logic from <code>shared/matching.js</code> and <code>shared/resolvers.js</code> runs directly in this page against the JSON content bundled alongside it. Content is paraphrased for reference and cited by Law/clause number, not verbatim official text; not a substitute for the official Laws of Cricket or your competition's playing conditions. The full build, with a real Express API and a Service Worker offline fallback, lives in <code>server/</code> and <code>public/</code> in this repo.</p>
+  </footer>
+
+  <script src="./matching.js"></script>
+  <script src="./resolvers.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>
